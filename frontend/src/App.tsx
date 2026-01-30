@@ -10,7 +10,7 @@ import { Community } from './pages/Community';
 import { Settings } from './pages/Settings';
 
 function App() {
-  const { agent, loading, login, logout } = useAuth();
+  const { agent, loading, logout } = useAuth();
   const { language, t, toggleLanguage } = useLanguage();
 
   if (loading) {
@@ -32,7 +32,7 @@ function App() {
           <Route path="/community/:name" element={<Community />} />
           <Route
             path="/settings"
-            element={<Settings agent={agent} onLogin={login} onLogout={logout} t={t} />}
+            element={<Settings agent={agent} onLogout={logout} t={t} />}
           />
         </Route>
       </Routes>

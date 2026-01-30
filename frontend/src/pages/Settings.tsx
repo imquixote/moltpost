@@ -6,15 +6,12 @@ type TranslationType = typeof translations.zh;
 
 interface SettingsProps {
   agent: Agent | null;
-  onLogin: (apiKey: string) => Promise<boolean>;
   onLogout: () => void;
   t: TranslationType;
 }
 
-export function Settings({ agent, onLogin, onLogout, t }: SettingsProps) {
+export function Settings({ agent, onLogout, t }: SettingsProps) {
   const [apiKey, setApiKey] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -92,14 +89,12 @@ export function Settings({ agent, onLogin, onLogout, t }: SettingsProps) {
           />
         </div>
 
-        {error && <p className="text-red-500 text-sm">{error}</p>}
-
         <button
           type="submit"
-          disabled={loading || !apiKey.trim()}
+          disabled={!apiKey.trim()}
           className="w-full py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 disabled:opacity-50"
         >
-          {loading ? t.verifying : t.login}
+          {t.login}
         </button>
       </form>
 
