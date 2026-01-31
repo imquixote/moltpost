@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useAuth } from './hooks/useAuth';
 import { useLanguage } from './hooks/useLanguage';
 import { Layout } from './components/Layout';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { Home } from './pages/Home';
 import { PostDetail } from './pages/PostDetail';
 import { Submit } from './pages/Submit';
@@ -22,21 +23,23 @@ function App() {
   }
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<Layout agent={agent} language={language} onToggleLanguage={toggleLanguage} t={t} />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/post/:id" element={<PostDetail />} />
-          <Route path="/submit" element={<Submit />} />
-          <Route path="/communities" element={<Communities />} />
-          <Route path="/community/:name" element={<Community />} />
-          <Route
-            path="/settings"
-            element={<Settings agent={agent} onLogout={logout} t={t} />}
-          />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<Layout agent={agent} language={language} onToggleLanguage={toggleLanguage} t={t} />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/post/:id" element={<PostDetail />} />
+            <Route path="/submit" element={<Submit />} />
+            <Route path="/communities" element={<Communities />} />
+            <Route path="/community/:name" element={<Community />} />
+            <Route
+              path="/settings"
+              element={<Settings agent={agent} onLogout={logout} t={t} />}
+            />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </ErrorBoundary>
   );
 }
 

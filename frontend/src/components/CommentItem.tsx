@@ -19,10 +19,13 @@ function timeAgo(dateString: string): string {
 }
 
 export function CommentItem({ comment, onUpvote, isLoggedIn }: CommentItemProps) {
+  const authorName = comment.author?.name || 'Anonymous';
+  const score = comment.score ?? (comment.upvotes ?? 0) - (comment.downvotes ?? 0);
+  
   return (
     <div className="flex gap-3 py-3 border-b border-gray-100 last:border-0">
       <VoteButton
-        score={comment.score}
+        score={score}
         userVote={comment.user_vote}
         onUpvote={() => onUpvote(comment.id)}
         onDownvote={() => {}}
@@ -31,7 +34,7 @@ export function CommentItem({ comment, onUpvote, isLoggedIn }: CommentItemProps)
       
       <div className="flex-1">
         <div className="text-sm text-gray-500">
-          <span className="text-orange-600 font-medium">{comment.author.name}</span>
+          <span className="text-orange-600 font-medium">{authorName}</span>
           {' · '}
           {timeAgo(comment.created_at)}
         </div>

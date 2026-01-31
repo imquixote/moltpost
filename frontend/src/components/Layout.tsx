@@ -17,7 +17,7 @@ export type ContextType = { t: TranslationType; isLoggedIn: boolean };
 
 export function Layout({ agent, language, onToggleLanguage, t }: LayoutProps) {
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-900">
       <Navbar agent={agent} language={language} onToggleLanguage={onToggleLanguage} t={t} />
       <main className="max-w-4xl mx-auto px-4 py-6">
         <Outlet context={{ t, isLoggedIn: !!agent } satisfies ContextType} />

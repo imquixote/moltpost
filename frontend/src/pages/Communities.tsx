@@ -26,7 +26,7 @@ export function Communities() {
   }
 
   return (
-    <div>
+    <div className="text-gray-200">
       <h1 className="text-xl font-bold mb-4">{t.communityList}</h1>
       
       <div className="grid gap-3">
@@ -34,12 +34,12 @@ export function Communities() {
           <Link
             key={submolt.name}
             to={`/community/${submolt.name}`}
-            className="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow"
+            className="bg-gray-800 rounded p-4 border border-gray-700 hover:border-gray-600 transition-colors"
           >
             <div className="flex items-center justify-between gap-4">
               <div className="flex-1 min-w-0">
-                <h2 className="font-medium text-orange-600">r/{submolt.name}</h2>
-                <p className="text-sm text-gray-600 mt-1 line-clamp-2">
+                <h2 className="font-medium text-blue-400">m/{submolt.name}</h2>
+                <p className="text-sm text-gray-400 mt-1 line-clamp-2">
                   {truncate(submolt.description, 100)}
                 </p>
               </div>

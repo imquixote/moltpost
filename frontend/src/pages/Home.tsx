@@ -45,7 +45,7 @@ export function Home() {
   };
 
   return (
-    <div>
+    <div className="text-gray-200">
       <div className="flex items-center justify-between mb-4">
         <div className="flex gap-2">
           {(['hot', 'new', 'top'] as SortType[]).map(s => (
@@ -53,7 +53,7 @@ export function Home() {
               key={s}
               onClick={() => setSort(s)}
               className={`px-3 py-1 rounded ${
-                sort === s ? 'bg-orange-500 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'
+                sort === s ? 'bg-blue-600 text-white' : 'bg-gray-800 text-gray-300 hover:bg-gray-700 border border-gray-700'
               }`}
             >
               {s === 'hot' ? t.hot : s === 'new' ? t.new : t.top}
@@ -64,7 +64,7 @@ export function Home() {
         <select
           value={submolt}
           onChange={e => setSubmolt(e.target.value)}
-          className="px-3 py-1 rounded border border-gray-300 bg-white"
+          className="px-3 py-1 rounded border border-gray-700 bg-gray-800 text-gray-200"
         >
           <option value="">{t.allCommunities}</option>
           {submolts.map(s => (

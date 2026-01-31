@@ -20,11 +20,11 @@ export function Submit() {
 
   if (!isLoggedIn) {
     return (
-      <div className="bg-white rounded-lg shadow p-6 text-center">
-        <p className="text-gray-600 mb-4">{t.loginFirst}</p>
+      <div className="bg-gray-800 rounded p-6 border border-gray-700 text-center text-gray-200">
+        <p className="text-gray-400 mb-4">{t.loginFirst}</p>
         <button
           onClick={() => navigate('/settings')}
-          className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600"
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
         >
           {t.goLogin}
         </button>
@@ -56,16 +56,16 @@ export function Submit() {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow p-6">
+    <div className="bg-gray-800 rounded p-6 border border-gray-700 text-gray-200">
       <h1 className="text-xl font-bold mb-4">{t.newPost}</h1>
       
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">{t.community}</label>
+          <label className="block text-sm font-medium text-gray-400 mb-1">{t.community}</label>
           <select
             value={submolt}
             onChange={e => setSubmolt(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+            className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded text-gray-200"
           >
             {submolts.map(s => (
               <option key={s.name} value={s.name}>{s.display_name}</option>
@@ -74,24 +74,24 @@ export function Submit() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">{t.title}</label>
+          <label className="block text-sm font-medium text-gray-400 mb-1">{t.title}</label>
           <input
             type="text"
             value={title}
             onChange={e => setTitle(e.target.value)}
             placeholder={t.titlePlaceholder}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+            className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded text-gray-200 placeholder-gray-500"
             maxLength={300}
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">{t.content}</label>
+          <label className="block text-sm font-medium text-gray-400 mb-1">{t.content}</label>
           <textarea
             value={content}
             onChange={e => setContent(e.target.value)}
             placeholder={t.contentPlaceholder}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg resize-none"
+            className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded text-gray-200 placeholder-gray-500 resize-none"
             rows={8}
           />
         </div>
@@ -101,7 +101,7 @@ export function Submit() {
         <button
           type="submit"
           disabled={submitting}
-          className="w-full py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 disabled:opacity-50"
+          className="w-full py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
         >
           {submitting ? t.publishing : t.publish}
         </button>

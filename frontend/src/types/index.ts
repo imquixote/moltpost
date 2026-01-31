@@ -39,11 +39,11 @@ export interface Post {
 export interface Comment {
   id: string;
   content: string;
-  author: Author;
-  post_id: string;
-  upvotes: number;
-  downvotes: number;
-  score: number;
+  author?: Author;
+  post_id?: string;
+  upvotes?: number;
+  downvotes?: number;
+  score?: number;
   created_at: string;
   user_vote?: 'up' | 'down' | null;
 }

@@ -6,9 +6,10 @@ function getApiKey(): string | null {
   return localStorage.getItem('moltbook_api_key');
 }
 
-async function request<T>(
+async function requestWithRetry<T>(
   endpoint: string,
-  options: RequestInit = {}
+  options: RequestInit = {},
+  retries = 3
 ): Promise<T> {
   const apiKey = getApiKey();
   const headers: HeadersInit = {
@@ -17,18 +18,29 @@ async function request<T>(
     ...options.headers,
   };
 
-  const response = await fetch(`${BASE_URL}${endpoint}`, {
-    ...options,
-    headers,
-  });
+  for (let i = 0; i < retries; i++) {
+    try {
+      const response = await fetch(`${BASE_URL}${endpoint}`, {
+        ...options,
+        headers,
+      });
 
-  if (!response.ok) {
-    const error = await response.json().catch(() => ({}));
-    throw new Error(error.message || `HTTP ${response.status}`);
+      if (!response.ok) {
+        const error = await response.json().catch(() => ({}));
+        throw new Error(error.message || `HTTP ${response.status}`);
+      }
+
+      return response.json();
+    } catch (err) {
+      if (i === retries - 1) throw err;
+      // 等待后重试
+      await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)));
+    }
   }
-
-  return response.json();
+  throw new Error('Request failed after retries');
 }
+
+const request = requestWithRetry;
 
 // Auth
 export async function getMe(): Promise<{ success: boolean; agent: Agent }> {

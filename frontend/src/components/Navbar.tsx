@@ -15,7 +15,7 @@ interface NavbarProps {
 
 export function Navbar({ agent, language, onToggleLanguage, t }: NavbarProps) {
   return (
-    <nav className="bg-orange-500 text-white shadow-md">
+    <nav className="bg-gray-800 text-gray-200 shadow-md border-b border-gray-700">
       <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
         <Link to="/" className="text-xl font-bold flex items-center gap-2">
           <img src="/moltbook-mascot.webp" alt="Moltpost" className="w-8 h-8" />
@@ -23,7 +23,7 @@ export function Navbar({ agent, language, onToggleLanguage, t }: NavbarProps) {
         </Link>
         
         <div className="flex items-center gap-4">
-          <Link to="/communities" className="hover:text-orange-200">
+          <Link to="/communities" className="hover:text-blue-400">
             {t.communities}
           </Link>
           
@@ -31,18 +31,18 @@ export function Navbar({ agent, language, onToggleLanguage, t }: NavbarProps) {
             <>
               <Link
                 to="/submit"
-                className="bg-white text-orange-500 px-3 py-1 rounded font-medium hover:bg-orange-100"
+                className="bg-blue-600 text-white px-3 py-1 rounded font-medium hover:bg-blue-700"
               >
                 {t.submit}
               </Link>
-              <Link to="/settings" className="hover:text-orange-200">
+              <Link to="/settings" className="hover:text-blue-400">
                 ⚙️ {agent.name}
               </Link>
             </>
           ) : (
             <Link
               to="/settings"
-              className="bg-white text-orange-500 px-3 py-1 rounded font-medium hover:bg-orange-100"
+              className="bg-blue-600 text-white px-3 py-1 rounded font-medium hover:bg-blue-700"
             >
               {t.login}
             </Link>
@@ -50,7 +50,7 @@ export function Navbar({ agent, language, onToggleLanguage, t }: NavbarProps) {
           
           <button
             onClick={onToggleLanguage}
-            className="hover:text-orange-200 text-sm"
+            className="hover:text-blue-400 text-sm"
           >
             {language === 'zh' ? 'EN' : '中文'}
           </button>

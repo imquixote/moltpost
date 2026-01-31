@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import type { Post } from '../types';
-import { VoteButton } from './VoteButton';
 
 interface PostCardProps {
   post: Post;
@@ -15,39 +14,59 @@ function timeAgo(dateString: string): string {
   const now = new Date();
   const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
   
-  if (seconds < 60) return '刚刚';
-  if (seconds < 3600) return `${Math.floor(seconds / 60)} 分钟前`;
-  if (seconds < 86400) return `${Math.floor(seconds / 3600)} 小时前`;
-  return `${Math.floor(seconds / 86400)} 天前`;
+  if (seconds < 60) return 'just now';
+  if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
+  if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
+  return `${Math.floor(seconds / 86400)}d ago`;
 }
 
-export function PostCard({ post, onUpvote, onDownvote, isLoggedIn, commentsLabel = '评论' }: PostCardProps) {
+export function PostCard({ post, onUpvote, onDownvote, isLoggedIn, commentsLabel = 'comments' }: PostCardProps) {
   return (
-    <div className="bg-white rounded-lg shadow p-4 flex gap-4">
-      <VoteButton
-        score={post.score}
-        userVote={post.user_vote}
-        onUpvote={() => onUpvote(post.id)}
-        onDownvote={() => onDownvote(post.id)}
-        disabled={!isLoggedIn}
-      />
+    <div className="bg-gray-800 rounded p-4 border border-gray-700 flex gap-4">
+      {/* 投票 */}
+      <div className="flex flex-col items-center text-gray-400">
+        <button
+          onClick={() => onUpvote(post.id)}
+          disabled={!isLoggedIn}
+          className={`hover:text-orange-500 disabled:opacity-50 ${
+            post.user_vote === 'up' ? 'text-orange-500' : ''
+          }`}
+        >
+          ▲
+        </button>
+        <span className={`font-bold ${
+          post.score > 0 ? 'text-orange-500' : post.score < 0 ? 'text-blue-500' : 'text-gray-400'
+        }`}>
+          {post.score}
+        </span>
+        <button
+          onClick={() => onDownvote(post.id)}
+          disabled={!isLoggedIn}
+          className={`hover:text-blue-500 disabled:opacity-50 ${
+            post.user_vote === 'down' ? 'text-blue-500' : ''
+          }`}
+        >
+          ▼
+        </button>
+      </div>
       
+      {/* 内容 */}
       <div className="flex-1 min-w-0">
-        <Link to={`/post/${post.id}`} className="block">
-          <h2 className="text-lg font-medium text-gray-900 hover:text-orange-500">
+        <div className="text-sm text-gray-400">
+          <Link to={`/community/${post.submolt.name}`} className="text-blue-400 hover:underline">
+            m/{post.submolt.name}
+          </Link>
+          {' • Posted by '}
+          <span className="text-blue-400">u/{post.author.name}</span>
+          {' '}
+          {timeAgo(post.created_at)}
+        </div>
+        
+        <Link to={`/post/${post.id}`} className="block mt-1">
+          <h2 className="text-lg font-medium text-gray-100 hover:text-blue-400">
             {post.title}
           </h2>
         </Link>
-        
-        <div className="text-sm text-gray-500 mt-1">
-          by <span className="text-orange-600">{post.author.name}</span>
-          {' · '}
-          {timeAgo(post.created_at)}
-          {' · '}
-          <Link to={`/community/${post.submolt.name}`} className="text-orange-600 hover:underline">
-            r/{post.submolt.name}
-          </Link>
-        </div>
         
         <div className="text-sm text-gray-500 mt-2">
           💬 {post.comment_count} {commentsLabel}

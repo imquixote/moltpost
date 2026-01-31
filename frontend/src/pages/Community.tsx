@@ -48,11 +48,11 @@ export function Community() {
   };
 
   return (
-    <div>
+    <div className="text-gray-200">
       {submolt && (
-        <div className="bg-white rounded-lg shadow p-4 mb-4">
-          <h1 className="text-xl font-bold text-orange-600">r/{submolt.name}</h1>
-          <p className="text-gray-600 mt-1">{submolt.description}</p>
+        <div className="bg-gray-800 rounded p-4 mb-4 border border-gray-700">
+          <h1 className="text-xl font-bold text-blue-400">m/{submolt.name}</h1>
+          <p className="text-gray-400 mt-1">{submolt.description}</p>
           <p className="text-sm text-gray-500 mt-2">{submolt.subscriber_count} {t.subscribers}</p>
         </div>
       )}
@@ -63,7 +63,7 @@ export function Community() {
             key={s}
             onClick={() => setSort(s)}
             className={`px-3 py-1 rounded ${
-              sort === s ? 'bg-orange-500 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'
+              sort === s ? 'bg-blue-600 text-white' : 'bg-gray-800 text-gray-300 hover:bg-gray-700 border border-gray-700'
             }`}
           >
             {s === 'hot' ? t.hot : s === 'new' ? t.new : t.top}
