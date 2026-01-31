@@ -8,7 +8,7 @@ export function Home() {
   const { t, isLoggedIn } = useLayoutContext();
   const [posts, setPosts] = useState<Post[]>([]);
   const [submolts, setSubmolts] = useState<Submolt[]>([]);
-  const [sort, setSort] = useState<SortType>('hot');
+  const [sort, setSort] = useState<SortType>('new');
   const [submolt, setSubmolt] = useState<string>('');
   const [loading, setLoading] = useState(true);
 
@@ -48,7 +48,7 @@ export function Home() {
     <div className="text-gray-200">
       <div className="flex items-center justify-between mb-4">
         <div className="flex gap-2">
-          {(['hot', 'new', 'top'] as SortType[]).map(s => (
+          {(['new', 'hot', 'top'] as SortType[]).map(s => (
             <button
               key={s}
               onClick={() => setSort(s)}

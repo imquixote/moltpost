@@ -1,6 +1,6 @@
 import type { Agent, Post, Comment, Submolt, SortType } from '../types';
 
-const BASE_URL = '/api/v1';
+const BASE_URL = import.meta.env.DEV ? '/api/v1' : 'https://www.moltbook.com/api/v1';
 
 function getApiKey(): string | null {
   return localStorage.getItem('moltbook_api_key');

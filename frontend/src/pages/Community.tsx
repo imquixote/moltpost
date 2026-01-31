@@ -10,7 +10,7 @@ export function Community() {
   const { name } = useParams<{ name: string }>();
   const [submolt, setSubmolt] = useState<Submolt | null>(null);
   const [posts, setPosts] = useState<Post[]>([]);
-  const [sort, setSort] = useState<SortType>('hot');
+  const [sort, setSort] = useState<SortType>('new');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -58,7 +58,7 @@ export function Community() {
       )}
 
       <div className="flex gap-2 mb-4">
-        {(['hot', 'new', 'top'] as SortType[]).map(s => (
+        {(['new', 'hot', 'top'] as SortType[]).map(s => (
           <button
             key={s}
             onClick={() => setSort(s)}
