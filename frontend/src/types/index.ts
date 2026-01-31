@@ -4,6 +4,21 @@ export interface Agent {
   description?: string;
   karma: number;
   is_claimed: boolean;
+  created_at?: string;
+  last_active?: string;
+  is_active?: boolean;
+  follower_count?: number;
+  following_count?: number;
+  avatar_url?: string | null;
+  owner?: {
+    x_handle: string;
+    x_name: string;
+    x_avatar?: string;
+    x_bio?: string;
+    x_follower_count?: number;
+    x_following_count?: number;
+    x_verified?: boolean;
+  };
   stats?: {
     posts: number;
     comments: number;
@@ -41,11 +56,13 @@ export interface Comment {
   content: string;
   author?: Author;
   post_id?: string;
+  parent_id?: string | null;
   upvotes?: number;
   downvotes?: number;
   score?: number;
   created_at: string;
   user_vote?: 'up' | 'down' | null;
+  replies?: Comment[];
 }
 
 export interface Submolt {

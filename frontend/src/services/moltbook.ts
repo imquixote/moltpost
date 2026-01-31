@@ -47,6 +47,15 @@ export async function getMe(): Promise<{ success: boolean; agent: Agent }> {
   return request('/agents/me');
 }
 
+export interface AgentProfile {
+  agent: Agent;
+  recentPosts: Post[];
+}
+
+export async function getAgentProfile(name: string): Promise<{ success: boolean } & AgentProfile> {
+  return request(`/agents/profile?name=${encodeURIComponent(name)}`);
+}
+
 export async function verifyApiKey(apiKey: string): Promise<Agent | null> {
   try {
     const controller = new AbortController();
@@ -120,11 +129,12 @@ export async function downvotePost(id: string): Promise<{ success: boolean }> {
 // Comments
 export async function createComment(
   postId: string,
-  content: string
+  content: string,
+  parentId?: string
 ): Promise<{ success: boolean; comment: Comment }> {
   return request(`/posts/${postId}/comments`, {
     method: 'POST',
-    body: JSON.stringify({ content }),
+    body: JSON.stringify({ content, parent_id: parentId }),
   });
 }
 
@@ -147,4 +157,57 @@ export async function subscribeSubmolt(name: string): Promise<{ success: boolean
 
 export async function unsubscribeSubmolt(name: string): Promise<{ success: boolean }> {
   return request(`/submolts/${name}/subscribe`, { method: 'DELETE' });
+}
+
+
+// Register
+export interface RegisterResponse {
+  success: boolean;
+  message: string;
+  agent: {
+    id: string;
+    name: string;
+    api_key: string;
+    claim_url: string;
+    verification_code: string;
+    profile_url: string;
+    created_at: string;
+  };
+  setup: {
+    step_1: { action: string; critical: boolean };
+    step_2: { action: string; url: string };
+    step_3: { action: string; details: string };
+    step_4: { action: string };
+  };
+  tweet_template: string;
+  status: string;
+}
+
+export async function registerAgent(
+  name: string,
+  description?: string
+): Promise<RegisterResponse> {
+  // 使用重试逻辑
+  const retries = 3;
+  for (let i = 0; i < retries; i++) {
+    try {
+      const response = await fetch(`${BASE_URL}/agents/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, description: description || undefined }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json().catch(() => ({}));
+        throw new Error(error.message || error.error || `Registration failed: HTTP ${response.status}`);
+      }
+
+      return response.json();
+    } catch (err) {
+      if (i === retries - 1) throw err;
+      // 等待后重试
+      await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)));
+    }
+  }
+  throw new Error('Registration failed after retries');
 }

@@ -9,9 +9,11 @@ import { Submit } from './pages/Submit';
 import { Communities } from './pages/Communities';
 import { Community } from './pages/Community';
 import { Settings } from './pages/Settings';
+import { Register } from './pages/Register';
+import { User } from './pages/User';
 
 function App() {
-  const { agent, loading, logout } = useAuth();
+  const { agent, agents, loading, addAgent, switchAgent, removeAgent, logout } = useAuth();
   const { language, t, toggleLanguage } = useLanguage();
 
   if (loading) {
@@ -26,16 +28,28 @@ function App() {
     <ErrorBoundary>
       <BrowserRouter>
         <Routes>
-          <Route element={<Layout agent={agent} language={language} onToggleLanguage={toggleLanguage} t={t} />}>
+          <Route element={<Layout agent={agent} agents={agents} language={language} onToggleLanguage={toggleLanguage} onSwitchAgent={switchAgent} onAddAgent={addAgent} t={t} />}>
             <Route path="/" element={<Home />} />
             <Route path="/post/:id" element={<PostDetail />} />
             <Route path="/submit" element={<Submit />} />
             <Route path="/communities" element={<Communities />} />
             <Route path="/community/:name" element={<Community />} />
+            <Route path="/user/:name" element={<User />} />
             <Route
               path="/settings"
-              element={<Settings agent={agent} onLogout={logout} t={t} />}
+              element={
+                <Settings
+                  agent={agent}
+                  agents={agents}
+                  onAddAgent={addAgent}
+                  onSwitchAgent={switchAgent}
+                  onRemoveAgent={removeAgent}
+                  onLogout={logout}
+                  t={t}
+                />
+              }
             />
+            <Route path="/register" element={<Register />} />
           </Route>
         </Routes>
       </BrowserRouter>

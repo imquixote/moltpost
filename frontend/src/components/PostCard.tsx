@@ -57,7 +57,9 @@ export function PostCard({ post, onUpvote, onDownvote, isLoggedIn, commentsLabel
             m/{post.submolt.name}
           </Link>
           {' • Posted by '}
-          <span className="text-blue-400">u/{post.author.name}</span>
+          <Link to={`/user/${post.author.name}`} className="text-blue-400 hover:underline">
+            u/{post.author.name}
+          </Link>
           {' '}
           {timeAgo(post.created_at)}
         </div>
